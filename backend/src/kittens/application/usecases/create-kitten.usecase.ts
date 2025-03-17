@@ -1,5 +1,7 @@
 import { KittenRepository } from '../kitten.repository';
 import { UserRepository } from '../user.repository';
+import { Inject } from '@nestjs/common';
+import { KITTEN_REPOSITORY, USER_REPOSITORY } from '../../tokens/tokens';
 import { Kitten } from '../../domain/kitten';
 import { KittenName } from '../../domain/kitten-name';
 import { KittenAttributes } from '../../domain/kitten-attributes';
@@ -18,11 +20,20 @@ export interface CreateKittenCommand {
 }
 
 export class CreateKittenUseCase {
+  private dateProvider: () => Date;
+
   constructor(
+    @Inject(KITTEN_REPOSITORY)
     private readonly kittenRepository: KittenRepository,
-    private readonly userRepository: UserRepository,
-    private readonly dateProvider: () => Date = () => new Date()
-  ) {}
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository
+  ) {
+    this.dateProvider = () => new Date();
+  }
+
+  setDateProvider(dateProvider: () => Date): void {
+    this.dateProvider = dateProvider;
+  }
 
   async execute(command: CreateKittenCommand): Promise<Kitten> {
     // Check if user exists
