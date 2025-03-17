@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: kitten-ia-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: kitteniadb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: kitten-ia-backend
+    restart: always
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/kitteniadb?schema=public
+      - JWT_SECRET=your-super-secret-jwt-key
+      - PORT=3001
+      - NODE_ENV=production
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: kitten-ia-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+
+volumes:
+  postgres_data:
