@@ -47,3 +47,11 @@ yarn-error.log*
 
 # Next.js
 .vercel
+
+# Testing
+coverage
+html
+.vitest
+
+# Vitest
+vitest.config.ts.timestamp-*
