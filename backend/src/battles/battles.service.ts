@@ -61,6 +61,18 @@ export class BattlesService {
     const completedBattleState = await this.battleEngineService.simulateBattle(battleState);
 
     // Enregistrer la bataille dans la base de données
+    // Filtrer les logs pour ne conserver que ceux avec des capacités valides
+    const validBattleMoves = completedBattleState.logs.filter(
+      log => log.abilityId && log.abilityId !== ''
+    ).map(log => ({
+      round: log.round,
+      kittenId: log.attackerId,
+      abilityId: log.abilityId || '00000000-0000-0000-0000-000000000000', // ID de la capacité par défaut
+      damage: log.damage,
+      isSuccess: log.isSuccess,
+      isCritical: log.isCritical,
+    }));
+
     const battleLog = await this.prisma.battleLog.create({
       data: {
         challengerId: challenger.id,
@@ -72,16 +84,12 @@ export class BattlesService {
         totalRounds: completedBattleState.round,
         currentRound: completedBattleState.round,
         experienceGain: completedBattleState.experienceGain,
-        battleMoves: {
-          create: completedBattleState.logs.map(log => ({
-            round: log.round,
-            kittenId: log.attackerId,
-            abilityId: log.abilityId || '00000000-0000-0000-0000-000000000000', // ID factice si pas d'abilité
-            damage: log.damage,
-            isSuccess: log.isSuccess,
-            isCritical: log.isCritical,
-          })),
-        },
+        // Ne créer des battleMoves que s'il y en a de valides
+        ...(validBattleMoves.length > 0 ? {
+          battleMoves: {
+            create: validBattleMoves,
+          },
+        } : {}),
       },
     });
 
