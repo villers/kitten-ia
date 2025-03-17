@@ -1,4 +1,6 @@
 import { KittenRepository } from '../kitten.repository';
+import { Inject } from '@nestjs/common';
+import { KITTEN_REPOSITORY } from '../../tokens/tokens';
 import { Kitten } from '../../domain/kitten';
 import { KittenNotFoundError, NotKittenOwnerError } from '../../domain/errors';
 
@@ -12,7 +14,10 @@ export interface AssignSkillPointsCommand {
 }
 
 export class AssignSkillPointsUseCase {
-  constructor(private readonly kittenRepository: KittenRepository) {}
+  constructor(
+    @Inject(KITTEN_REPOSITORY)
+    private readonly kittenRepository: KittenRepository
+  ) {}
 
   async execute(command: AssignSkillPointsCommand): Promise<Kitten> {
     // Find kitten

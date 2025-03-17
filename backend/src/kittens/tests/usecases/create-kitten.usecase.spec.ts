@@ -14,9 +14,9 @@ describe('Create Kitten Use Case', () => {
     fixture.givenCurrentDate(new Date('2024-01-01T00:00:00Z'));
     createKittenUseCase = new CreateKittenUseCase(
       fixture.getKittenRepository(),
-      fixture.getUserRepository(),
-      () => fixture.getCurrentDate()
+      fixture.getUserRepository()
     );
+    createKittenUseCase.setDateProvider(() => fixture.getCurrentDate());
   });
 
   it('should create a kitten with valid data', async () => {

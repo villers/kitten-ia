@@ -1,4 +1,6 @@
 import { KittenRepository } from '../kitten.repository';
+import { Inject } from '@nestjs/common';
+import { KITTEN_REPOSITORY } from '../../tokens/tokens';
 import { Kitten } from '../../domain/kitten';
 import { KittenNotFoundError, NotKittenOwnerError } from '../../domain/errors';
 
@@ -10,7 +12,10 @@ export interface UpdateKittenCommand {
 }
 
 export class UpdateKittenUseCase {
-  constructor(private readonly kittenRepository: KittenRepository) {}
+  constructor(
+    @Inject(KITTEN_REPOSITORY)
+    private readonly kittenRepository: KittenRepository
+  ) {}
 
   async execute(command: UpdateKittenCommand): Promise<Kitten> {
     // Check if either name or avatarUrl is provided
