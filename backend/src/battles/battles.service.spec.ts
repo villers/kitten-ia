@@ -4,7 +4,7 @@ import { BattleFixture } from '../test/fixtures/battle-fixture';
 import { userBuilder } from '../test/builders/user.builder';
 import { kittenBuilder } from '../test/builders/kitten.builder';
 import { battleLogBuilder } from '../test/builders/battle-log.builder';
-import { BattleStatus } from '@prisma/client';
+import { BattleStatus } from '../test/constants/enums';
 
 describe('BattlesService', () => {
   let fixture: BattleFixture;

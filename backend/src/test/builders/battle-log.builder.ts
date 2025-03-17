@@ -1,5 +1,6 @@
-import { BattleLog, BattleStatus } from '@prisma/client';
+import { BattleLog } from '@prisma/client';
 import { kittenBuilder } from './kitten.builder';
+import { BattleStatus } from '../constants/enums';
 
 interface BattleLogOptions {
   id?: string;
@@ -100,7 +101,7 @@ export const battleLogBuilder = ({
         challengerId: props.challengerId,
         opponentId: props.opponentId,
         winnerId: props.winnerId,
-        status: props.status,
+        status: props.status as any, // Type casting pour éviter les problèmes de compatibilité
         seed: props.seed,
         replayData: props.replayData,
         totalRounds: props.totalRounds,

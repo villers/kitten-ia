@@ -1,5 +1,6 @@
-import { Ability, AbilityType } from '@prisma/client';
+import { Ability } from '@prisma/client';
 import { kittenBuilder } from './kitten.builder';
+import { AbilityType } from '../constants/enums';
 
 interface AbilityOptions {
   id?: string;
@@ -85,7 +86,7 @@ export const abilityBuilder = ({
         id: props.id,
         name: props.name,
         description: props.description,
-        type: props.type,
+        type: props.type as any, // Type casting pour éviter les problèmes de compatibilité
         power: props.power,
         accuracy: props.accuracy,
         cooldown: props.cooldown,

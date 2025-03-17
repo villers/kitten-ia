@@ -1,10 +1,11 @@
-import { BattleLog, BattleStatus, Kitten, User } from '@prisma/client';
+import { BattleLog, Kitten, User } from '@prisma/client';
 import { InMemoryBattleRepository } from '../repositories/in-memory-battle-repository';
 import { InMemoryKittenRepository } from '../repositories/in-memory-kitten-repository';
 import { InMemoryUserRepository } from '../repositories/in-memory-user-repository';
 import { battleLogBuilder } from '../builders/battle-log.builder';
 import { battleMoveBuilder } from '../builders/battle-move.builder';
 import { CreateBattleDto } from '../../battles/dto/create-battle.dto';
+import { BattleStatus } from '../constants/enums';
 
 export class BattleFixture {
   private battleRepository = new InMemoryBattleRepository();
