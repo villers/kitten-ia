@@ -93,7 +93,15 @@ export class BattleFixture {
       // Update winner experience
       await this.kittenRepository.updateExperience(challenger.id, battleLog.experienceGain);
 
-      this.result = battleLog;
+      // Fetch the battle with its moves
+      const savedBattle = await this.battleRepository.findById(battleLog.id);
+      const moves = await this.battleRepository.getBattleMoves(battleLog.id);
+      
+      // Add the moves to the result
+      this.result = {
+        ...savedBattle,
+        battleMoves: moves
+      };
     } catch (error) {
       this.error = error as Error;
     }
