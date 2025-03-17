@@ -4,10 +4,10 @@ import { InMemoryKittenRepository } from './in-memory-kitten-repository';
 import { InMemoryUserRepository } from './in-memory-user-repository';
 
 export class KittenFixture {
-  private kittenRepository = new InMemoryKittenRepository();
-  private userRepository = new InMemoryUserRepository();
-  private error: Error | null = null;
-  private result: any = null;
+  private readonly kittenRepository = new InMemoryKittenRepository();
+  private readonly userRepository = new InMemoryUserRepository();
+  private readonly error: Error | null = null;
+  private readonly result: any = null;
   private date: Date = new Date('2024-01-01T00:00:00Z');
 
   givenKittenExists(kittens: Kitten[]): void {

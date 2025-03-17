@@ -21,9 +21,9 @@ interface KittenBuilderOptions {
 
 export const kittenBuilder = (options: KittenBuilderOptions = {}) => {
   const props = {
-    id: options.id || 'kitten-id-1',
-    name: options.name || 'Test Kitten',
-    userId: options.userId || 'user-id-1',
+    id: options.id ?? 'kitten-id-1',
+    name: options.name ?? 'Test Kitten',
+    userId: options.userId ?? 'user-id-1',
     level: options.level ?? 1,
     experience: options.experience ?? 0,
     skillPoints: options.skillPoints ?? 0,

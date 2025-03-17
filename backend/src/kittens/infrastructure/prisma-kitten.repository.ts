@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
-import { KittenRepository } from '../application/kitten.repository';
-import { Kitten } from '../domain/kitten';
-import { KittenName } from '../domain/kitten-name';
-import { KittenAttributes } from '../domain/kitten-attributes';
-import { AttributeValue } from '../domain/attribute-value';
+import { PrismaService } from '@/prisma/prisma.service';
+import { KittenRepository } from '@/kittens/application/kitten.repository';
+import { Kitten } from '@/kittens/domain/kitten';
+import { KittenName } from '@/kittens/domain/kitten-name';
+import { KittenAttributes } from '@/kittens/domain/kitten-attributes';
+import { AttributeValue } from '@/kittens/domain/attribute-value';
 
 @Injectable()
 export class PrismaKittenRepository implements KittenRepository {

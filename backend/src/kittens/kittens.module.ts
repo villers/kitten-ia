@@ -1,10 +1,31 @@
 import { Module } from '@nestjs/common';
-import { KittensService } from './kittens.service';
 import { KittensController } from './kittens.controller';
+import { PrismaModule } from '@/prisma/prisma.module';
+import { CreateKittenUseCase } from '@/kittens/application/usecases/create-kitten.usecase';
+import { AssignSkillPointsUseCase } from '@/kittens/application/usecases/assign-skill-points.usecase';
+import { PrismaKittenRepository } from '@/kittens/infrastructure/prisma-kitten.repository';
+import { PrismaUserRepository } from '@/kittens/infrastructure/prisma-user.repository';
+import { KittenRepository } from './application/kitten.repository';
+import { UserRepository } from './application/user.repository';
 
 @Module({
+  imports: [PrismaModule],
   controllers: [KittensController],
-  providers: [KittensService],
-  exports: [KittensService],
+  providers: [
+    // Use cases
+    CreateKittenUseCase,
+    AssignSkillPointsUseCase,
+    
+    // Repositories
+    {
+      provide: KittenRepository,
+      useClass: PrismaKittenRepository,
+    },
+    {
+      provide: UserRepository,
+      useClass: PrismaUserRepository,
+    },
+  ],
+  exports: [KittenRepository, UserRepository],
 })
 export class KittensModule {}

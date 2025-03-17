@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Kitten } from './kitten';
 import { KittenName } from './kitten-name';
 import { KittenAttributes } from './kitten-attributes';
@@ -132,5 +132,218 @@ describe('Kitten', () => {
     // When & Then
     expect(kitten.isOwnedBy(userId)).toBe(true);
     expect(kitten.isOwnedBy('other-user')).toBe(false);
+  });
+
+  describe('addExperience', () => {
+    it('should add experience to the kitten', () => {
+      // Given
+      const initialExp = 100;
+      const now = new Date('2023-01-01T12:00:00Z');
+      const kitten = new Kitten(
+        'kitten-1',
+        KittenName.of('Whiskers'),
+        'user-1',
+        1,
+        initialExp,
+        0,
+        KittenAttributes.createDefault(),
+        now,
+        now
+      );
+      const expToAdd = 50;
+      
+      // Mock Date constructor to return a different date
+      const laterDate = new Date('2023-01-01T12:01:00Z');
+      vi.spyOn(global, 'Date').mockImplementationOnce(() => laterDate);
+      
+      // When
+      const updatedKitten = kitten.addExperience(expToAdd);
+      
+      // Then
+      expect(updatedKitten.experience).toBe(initialExp + expToAdd);
+      expect(updatedKitten.level).toBe(kitten.level); // Level should not change
+      expect(updatedKitten.updatedAt.getTime()).toBeGreaterThan(kitten.updatedAt.getTime());
+      
+      // Restore Date mock
+      vi.restoreAllMocks();
+    });
+  });
+
+  describe('levelUp', () => {
+    it('should increase level by 1 and add default skill points', () => {
+      // Given
+      const initialLevel = 3;
+      const initialSkillPoints = 2;
+      const now = new Date('2023-01-01T12:00:00Z');
+      const kitten = new Kitten(
+        'kitten-1',
+        KittenName.of('Whiskers'),
+        'user-1',
+        initialLevel,
+        100,
+        initialSkillPoints,
+        KittenAttributes.createDefault(),
+        now,
+        now
+      );
+      
+      // Mock Date constructor to return a different date
+      const laterDate = new Date('2023-01-01T12:01:00Z');
+      vi.spyOn(global, 'Date').mockImplementationOnce(() => laterDate);
+      
+      // When
+      const updatedKitten = kitten.levelUp();
+      
+      // Then
+      expect(updatedKitten.level).toBe(initialLevel + 1);
+      expect(updatedKitten.skillPoints).toBe(initialSkillPoints + 5); // Default is 5 points per level
+      expect(updatedKitten.updatedAt.getTime()).toBeGreaterThan(kitten.updatedAt.getTime());
+      
+      // Restore Date mock
+      vi.restoreAllMocks();
+    });
+
+    it('should increase level by 1 and add custom skill points', () => {
+      // Given
+      const initialLevel = 3;
+      const initialSkillPoints = 2;
+      const customSkillPointsPerLevel = 3;
+      const now = new Date('2023-01-01T12:00:00Z');
+      const kitten = new Kitten(
+        'kitten-1',
+        KittenName.of('Whiskers'),
+        'user-1',
+        initialLevel,
+        100,
+        initialSkillPoints,
+        KittenAttributes.createDefault(),
+        now,
+        now
+      );
+      
+      // Mock Date constructor to return a different date
+      const laterDate = new Date('2023-01-01T12:01:00Z');
+      vi.spyOn(global, 'Date').mockImplementationOnce(() => laterDate);
+      
+      // When
+      const updatedKitten = kitten.levelUp(customSkillPointsPerLevel);
+      
+      // Then
+      expect(updatedKitten.level).toBe(initialLevel + 1);
+      expect(updatedKitten.skillPoints).toBe(initialSkillPoints + customSkillPointsPerLevel);
+      
+      // Restore Date mock
+      vi.restoreAllMocks();
+    });
+  });
+
+  describe('update', () => {
+    let kitten: Kitten;
+    let now: Date;
+    
+    beforeEach(() => {
+      now = new Date('2023-01-01T12:00:00Z');
+      kitten = new Kitten(
+        'kitten-1',
+        KittenName.of('Whiskers'),
+        'user-1',
+        1,
+        0,
+        0,
+        KittenAttributes.createDefault(),
+        now,
+        now
+      );
+    });
+    
+    it('should update kitten name when provided', () => {
+      // Given
+      const newName = 'Fluffy';
+      
+      // Mock Date constructor to return a different date
+      const laterDate = new Date('2023-01-01T12:01:00Z');
+      vi.spyOn(global, 'Date').mockImplementationOnce(() => laterDate);
+      
+      // When
+      const updatedKitten = kitten.update(newName);
+      
+      // Then
+      expect(updatedKitten.name.toString()).toBe(newName);
+      expect(updatedKitten.updatedAt.getTime()).toBeGreaterThan(kitten.updatedAt.getTime());
+      
+      // Restore Date mock
+      vi.restoreAllMocks();
+    });
+    
+    it('should update avatarUrl when provided', () => {
+      // Given
+      const newAvatarUrl = 'https://example.com/new-avatar.jpg';
+      
+      // Mock Date constructor to return a different date
+      const laterDate = new Date('2023-01-01T12:01:00Z');
+      vi.spyOn(global, 'Date').mockImplementationOnce(() => laterDate);
+      
+      // When
+      const updatedKitten = kitten.update(undefined, newAvatarUrl);
+      
+      // Then
+      expect(updatedKitten.avatarUrl).toBe(newAvatarUrl);
+      expect(updatedKitten.name).toBe(kitten.name); // Name should not change
+      
+      // Restore Date mock
+      vi.restoreAllMocks();
+    });
+    
+    it('should update both name and avatarUrl when both provided', () => {
+      // Given
+      const newName = 'Fluffy';
+      const newAvatarUrl = 'https://example.com/new-avatar.jpg';
+      
+      // Mock Date constructor to return a different date
+      const laterDate = new Date('2023-01-01T12:01:00Z');
+      vi.spyOn(global, 'Date').mockImplementationOnce(() => laterDate);
+      
+      // When
+      const updatedKitten = kitten.update(newName, newAvatarUrl);
+      
+      // Then
+      expect(updatedKitten.name.toString()).toBe(newName);
+      expect(updatedKitten.avatarUrl).toBe(newAvatarUrl);
+      
+      // Restore Date mock
+      vi.restoreAllMocks();
+    });
+    
+    it('should set avatarUrl to null when explicitly set to null', () => {
+      // Given
+      const initialAvatarUrl = 'https://example.com/avatar.jpg';
+      const createdAt = new Date('2023-01-01T12:00:00Z');
+      const updatedAt = new Date('2023-01-01T12:00:00Z');
+      const kittenWithAvatar = new Kitten(
+        'kitten-1',
+        KittenName.of('Whiskers'),
+        'user-1',
+        1,
+        0,
+        0,
+        KittenAttributes.createDefault(),
+        createdAt,
+        updatedAt,
+        initialAvatarUrl
+      );
+      
+      // Mock Date constructor to return a different date
+      const laterDate = new Date('2023-01-01T12:01:00Z');
+      vi.spyOn(global, 'Date').mockImplementationOnce(() => laterDate);
+      
+      // When
+      const updatedKitten = kittenWithAvatar.update(undefined, null);
+      
+      // Then
+      expect(updatedKitten.avatarUrl).toBeNull();
+      
+      // Restore Date mock
+      vi.restoreAllMocks();
+    });
   });
 });

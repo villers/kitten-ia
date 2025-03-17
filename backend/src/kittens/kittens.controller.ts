@@ -8,42 +8,73 @@ import {
   Delete,
   UseGuards,
   Request,
+  NotFoundException,
+  ForbiddenException,
+  BadRequestException,
 } from '@nestjs/common';
-import { KittensService } from './kittens.service';
 import { CreateKittenDto } from './dto/create-kitten.dto';
 import { UpdateKittenDto } from './dto/update-kitten.dto';
 import { AssignSkillPointsDto } from './dto/assign-skill-points.dto';
 import { AssignAbilityDto } from './dto/assign-ability.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { CreateKittenUseCase } from './application/usecases/create-kitten.usecase';
+import { AssignSkillPointsUseCase } from './application/usecases/assign-skill-points.usecase';
+import { 
+  KittenNameAlreadyExistError, 
+  KittenNotFoundError, 
+  NotEnoughSkillPointsError, 
+  NotKittenOwnerError, 
+  UserNotFoundForKittenCreationError 
+} from './domain/errors';
 
 @ApiTags('kittens')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('kittens')
 export class KittensController {
-  constructor(private readonly kittensService: KittensService) {}
+  constructor(
+    private readonly createKittenUseCase: CreateKittenUseCase,
+    private readonly assignSkillPointsUseCase: AssignSkillPointsUseCase,
+    // Other use cases will be injected here
+  ) {}
 
   @ApiOperation({ summary: 'Create a new kitten' })
   @ApiResponse({ status: 201, description: 'Kitten successfully created' })
   @Post()
-  create(@Body() createKittenDto: CreateKittenDto, @Request() req) {
-    return this.kittensService.create(createKittenDto, req.user.userId);
+  async create(@Body() createKittenDto: CreateKittenDto, @Request() req) {
+    try {
+      const kitten = await this.createKittenUseCase.execute({
+        ...createKittenDto,
+        userId: req.user.userId,
+      });
+      return kitten.toJSON();
+    } catch (error) {
+      if (error instanceof UserNotFoundForKittenCreationError) {
+        throw new NotFoundException(error.message);
+      }
+      if (error instanceof KittenNameAlreadyExistError) {
+        throw new BadRequestException(error.message);
+      }
+      throw error;
+    }
   }
 
-  @ApiOperation({ summary: 'Get all kittens' })
+  @ApiOperation({ summary: 'Get all kittens for the current user' })
   @ApiResponse({ status: 200, description: 'Return all kittens' })
   @Get()
-  findAll(@Request() req) {
-    return this.kittensService.findAll(req.user.userId);
+  async findAll(@Request() req) {
+    // This will be implemented with a FindKittensUseCase
+    return [];
   }
 
   @ApiOperation({ summary: 'Get kitten by id' })
   @ApiResponse({ status: 200, description: 'Return the kitten' })
   @ApiResponse({ status: 404, description: 'Kitten not found' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.kittensService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    // This will be implemented with a FindKittenByIdUseCase
+    return null;
   }
 
   @ApiOperation({ summary: 'Update a kitten' })
@@ -51,12 +82,13 @@ export class KittensController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Kitten not found' })
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateKittenDto: UpdateKittenDto,
     @Request() req,
   ) {
-    return this.kittensService.update(id, updateKittenDto, req.user.userId);
+    // This will be implemented with an UpdateKittenUseCase
+    return null;
   }
 
   @ApiOperation({ summary: 'Delete a kitten' })
@@ -64,8 +96,9 @@ export class KittensController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Kitten not found' })
   @Delete(':id')
-  remove(@Param('id') id: string, @Request() req) {
-    return this.kittensService.remove(id, req.user.userId);
+  async remove(@Param('id') id: string, @Request() req) {
+    // This will be implemented with a DeleteKittenUseCase
+    return null;
   }
 
   @ApiOperation({ summary: 'Assign skill points to kitten attributes' })
@@ -74,16 +107,30 @@ export class KittensController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Kitten not found' })
   @Patch(':id/skills')
-  assignSkillPoints(
+  async assignSkillPoints(
     @Param('id') id: string,
     @Body() assignSkillPointsDto: AssignSkillPointsDto,
     @Request() req,
   ) {
-    return this.kittensService.assignSkillPoints(
-      id,
-      assignSkillPointsDto,
-      req.user.userId,
-    );
+    try {
+      const kitten = await this.assignSkillPointsUseCase.execute({
+        kittenId: id,
+        userId: req.user.userId,
+        ...assignSkillPointsDto,
+      });
+      return kitten.toJSON();
+    } catch (error) {
+      if (error instanceof KittenNotFoundError) {
+        throw new NotFoundException(error.message);
+      }
+      if (error instanceof NotKittenOwnerError) {
+        throw new ForbiddenException(error.message);
+      }
+      if (error instanceof NotEnoughSkillPointsError) {
+        throw new BadRequestException(error.message);
+      }
+      throw error;
+    }
   }
 
   @ApiOperation({ summary: 'Assign ability to kitten' })
@@ -91,15 +138,12 @@ export class KittensController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Kitten or ability not found' })
   @Patch(':id/abilities')
-  assignAbility(
+  async assignAbility(
     @Param('id') id: string,
     @Body() assignAbilityDto: AssignAbilityDto,
     @Request() req,
   ) {
-    return this.kittensService.assignAbility(
-      id,
-      assignAbilityDto.abilityId,
-      req.user.userId,
-    );
+    // This will be implemented with an AssignAbilityUseCase
+    return null;
   }
 }

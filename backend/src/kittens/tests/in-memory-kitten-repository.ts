@@ -2,7 +2,7 @@ import { KittenRepository } from '../application/kitten.repository';
 import { Kitten } from '../domain/kitten';
 
 export class InMemoryKittenRepository implements KittenRepository {
-  private kittens: Map<string, Kitten> = new Map();
+  private readonly kittens: Map<string, Kitten> = new Map();
 
   givenExistingKittens(kittens: Kitten[]): void {
     kittens.forEach(kitten => {

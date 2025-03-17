@@ -79,7 +79,7 @@ describe('KittenAttributes', () => {
     
     // When & Then
     expect(KittenAttributes.validateSkillPoints(skillPoints, 2, 1, 1, 1)).toBe(true);
-    expect(KittenAttributes.validateSkillPoints(skillPoints, 2, 2, 2, 0)).toBe(true);
+    expect(KittenAttributes.validateSkillPoints(skillPoints, 2, 2, 1, 0)).toBe(true);
     expect(KittenAttributes.validateSkillPoints(skillPoints, 1, 1, 1, 2)).toBe(true);
     expect(KittenAttributes.validateSkillPoints(skillPoints, 5, 0, 0, 0)).toBe(true);
     expect(KittenAttributes.validateSkillPoints(skillPoints, 6, 0, 0, 0)).toBe(false);
