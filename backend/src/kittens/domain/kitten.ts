@@ -99,7 +99,7 @@ export class Kitten {
 
   update(
     name?: string,
-    avatarUrl?: string
+    avatarUrl?: string | null
   ): Kitten {
     return new Kitten(
       this._id,
@@ -157,7 +157,8 @@ export class Kitten {
       ...this._attributes.toJSON(),
       createdAt: this._createdAt,
       updatedAt: this._updatedAt,
-      avatarUrl: this._avatarUrl
+      avatarUrl: this._avatarUrl,
+      abilities: [] // Ajout temporaire pour la compatibilité avec le frontend
     };
   }
 }

@@ -1,4 +1,6 @@
 import { KittenRepository } from '../kitten.repository';
+import { Inject } from '@nestjs/common';
+import { KITTEN_REPOSITORY } from '../../tokens/tokens';
 import { Kitten } from '../../domain/kitten';
 import { KittenNotFoundError, NotKittenOwnerError } from '../../domain/errors';
 
@@ -9,7 +11,10 @@ export interface AddExperienceCommand {
 }
 
 export class AddExperienceUseCase {
-  constructor(private readonly kittenRepository: KittenRepository) {}
+  constructor(
+    @Inject(KITTEN_REPOSITORY)
+    private readonly kittenRepository: KittenRepository
+  ) {}
 
   async execute(command: AddExperienceCommand): Promise<Kitten> {
     // Validate experience

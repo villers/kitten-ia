@@ -3,10 +3,12 @@ import { KittensController } from './kittens.controller';
 import { PrismaModule } from '@/prisma/prisma.module';
 import { CreateKittenUseCase } from '@/kittens/application/usecases/create-kitten.usecase';
 import { AssignSkillPointsUseCase } from '@/kittens/application/usecases/assign-skill-points.usecase';
+import { UpdateKittenUseCase } from '@/kittens/application/usecases/update-kitten.usecase';
+import { AddExperienceUseCase } from '@/kittens/application/usecases/add-experience.usecase';
+import { LevelUpUseCase } from '@/kittens/application/usecases/level-up.usecase';
 import { PrismaKittenRepository } from '@/kittens/infrastructure/prisma-kitten.repository';
 import { PrismaUserRepository } from '@/kittens/infrastructure/prisma-user.repository';
-import { KittenRepository } from './application/kitten.repository';
-import { UserRepository } from './application/user.repository';
+import { KITTEN_REPOSITORY, USER_REPOSITORY } from './tokens/tokens';
 
 @Module({
   imports: [PrismaModule],
@@ -15,17 +17,20 @@ import { UserRepository } from './application/user.repository';
     // Use cases
     CreateKittenUseCase,
     AssignSkillPointsUseCase,
+    UpdateKittenUseCase,
+    AddExperienceUseCase,
+    LevelUpUseCase,
     
     // Repositories
     {
-      provide: KittenRepository,
+      provide: KITTEN_REPOSITORY,
       useClass: PrismaKittenRepository,
     },
     {
-      provide: UserRepository,
+      provide: USER_REPOSITORY,
       useClass: PrismaUserRepository,
     },
   ],
-  exports: [KittenRepository, UserRepository],
+  exports: [KITTEN_REPOSITORY, USER_REPOSITORY],
 })
 export class KittensModule {}
