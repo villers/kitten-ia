@@ -1,7 +1,7 @@
-import { Kitten } from '../domain/kitten';
-import { KittenName } from '../domain/kitten-name';
-import { KittenAttributes } from '../domain/kitten-attributes';
-import { AttributeValue } from '../domain/attribute-value';
+import { Kitten } from '@/kittens/domain/kitten';
+import { KittenName } from '@/kittens/domain/kitten-name';
+import { KittenAttributes } from '@/kittens/domain/kitten-attributes';
+import { AttributeValue } from '@/kittens/domain/attribute-value';
 
 interface KittenBuilderOptions {
   id?: string;

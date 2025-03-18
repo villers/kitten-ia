@@ -5,7 +5,7 @@ import {
   BattleKitten,
   BattleAbility,
   BattleLog,
-} from '../models/battle-state.model';
+} from '@/battles/models/battle-state.model';
 
 @Injectable()
 export class BattleEngineService {

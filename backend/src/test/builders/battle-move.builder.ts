@@ -1,7 +1,7 @@
 import { BattleMove } from '@prisma/client';
-import { kittenBuilder } from './kitten.builder';
-import { abilityBuilder } from './ability.builder';
-import { battleLogBuilder } from './battle-log.builder';
+import { kittenBuilder } from '@/test/builders/kitten.builder';
+import { abilityBuilder } from '@/test/builders/ability.builder';
+import { battleLogBuilder } from '@/test/builders/battle-log.builder';
 
 interface BattleMoveOptions {
   id?: string;

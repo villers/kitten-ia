@@ -1,5 +1,5 @@
-import { KittenRepository } from '../application/kitten.repository';
-import { Kitten } from '../domain/kitten';
+import { KittenRepository } from '@/kittens/application/kitten.repository';
+import { Kitten } from '@/kittens/domain/kitten';
 
 export class InMemoryKittenRepository implements KittenRepository {
   private readonly kittens: Map<string, Kitten> = new Map();

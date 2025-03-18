@@ -1,8 +1,8 @@
 import { BattleLog, BattleMove } from '@prisma/client';
-import { InMemoryRepository } from './in-memory-repository';
+import { InMemoryRepository } from '@/test/repositories/in-memory-repository';
 
 export class InMemoryBattleRepository extends InMemoryRepository<BattleLog> {
-  private battleMoves: Map<string, BattleMove[]> = new Map();
+  private readonly battleMoves: Map<string, BattleMove[]> = new Map();
 
   async findByKittenId(kittenId: string): Promise<BattleLog[]> {
     const battles = Array.from(this.items.values());

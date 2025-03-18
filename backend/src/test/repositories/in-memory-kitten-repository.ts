@@ -1,5 +1,5 @@
 import { Kitten } from '@prisma/client';
-import { InMemoryRepository } from './in-memory-repository';
+import { InMemoryRepository } from '@/test/repositories/in-memory-repository';
 
 export class InMemoryKittenRepository extends InMemoryRepository<Kitten> {
   async findByUserId(userId: string): Promise<Kitten[]> {

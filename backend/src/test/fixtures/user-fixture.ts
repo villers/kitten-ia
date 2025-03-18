@@ -1,9 +1,9 @@
 import { User } from '@prisma/client';
-import { InMemoryUserRepository } from '../repositories/in-memory-user-repository';
-import { userBuilder } from '../builders/user.builder';
+import { InMemoryUserRepository } from '@/test/repositories/in-memory-user-repository';
+import { userBuilder } from '@/test/builders';
 
 export class UserFixture {
-  private userRepository = new InMemoryUserRepository();
+  private readonly userRepository = new InMemoryUserRepository();
   private error: Error | null = null;
   private result: any = null;
 

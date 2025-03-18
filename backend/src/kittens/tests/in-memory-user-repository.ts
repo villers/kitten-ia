@@ -1,4 +1,4 @@
-import { User, UserRepository } from '../application/user.repository';
+import { User, UserRepository } from '@/kittens/application/user.repository';
 
 export class InMemoryUserRepository implements UserRepository {
   private readonly users: Map<string, User> = new Map();

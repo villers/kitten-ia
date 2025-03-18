@@ -1,7 +1,7 @@
-import { Kitten } from '../domain/kitten';
-import { User } from '../application/user.repository';
-import { InMemoryKittenRepository } from './in-memory-kitten-repository';
-import { InMemoryUserRepository } from './in-memory-user-repository';
+import { Kitten } from '@/kittens/domain/kitten';
+import { User } from '@/kittens/application/user.repository';
+import { InMemoryKittenRepository } from '@/kittens/tests/in-memory-kitten-repository';
+import { InMemoryUserRepository } from '@/kittens/tests/in-memory-user-repository';
 
 export class KittenFixture {
   private readonly kittenRepository = new InMemoryKittenRepository();

@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { CreateKittenUseCase } from '../../application/usecases/create-kitten.usecase';
-import { KittenFixture, createKittenFixture } from '../kitten-fixture';
-import { KittenNameAlreadyExistError, UserNotFoundForKittenCreationError } from '../../domain/errors';
-import { kittenBuilder } from '../kitten-builder';
-import { Kitten } from '../../domain/kitten';
+import { CreateKittenUseCase } from '@/kittens/application/usecases/create-kitten.usecase';
+import { KittenFixture, createKittenFixture } from '@/kittens/tests/kitten-fixture';
+import { KittenNameAlreadyExistError, UserNotFoundForKittenCreationError } from '@/kittens/domain/errors';
+import { kittenBuilder } from '@/kittens/tests/kitten-builder';
+import { Kitten } from '@/kittens/domain/kitten';
 
 describe('Create Kitten Use Case', () => {
   let fixture: KittenFixture;

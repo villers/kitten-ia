@@ -1,6 +1,6 @@
-import { KittenName } from './kitten-name';
-import { KittenAttributes } from './kitten-attributes';
-import { NotEnoughSkillPointsError } from './errors';
+import { KittenName } from '@/kittens/domain/kitten-name';
+import { KittenAttributes } from '@/kittens/domain/kitten-attributes';
+import { NotEnoughSkillPointsError } from '@/kittens/domain/errors';
 
 export class Kitten {
   constructor(

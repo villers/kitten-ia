@@ -1,12 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { AssignSkillPointsUseCase } from '../../application/usecases/assign-skill-points.usecase';
-import { KittenFixture, createKittenFixture } from '../kitten-fixture';
-import { kittenBuilder } from '../kitten-builder';
+import { AssignSkillPointsUseCase } from '@/kittens/application/usecases/assign-skill-points.usecase';
+import { KittenFixture, createKittenFixture } from '@/kittens/tests/kitten-fixture';
+import { kittenBuilder } from '@/kittens/tests/kitten-builder';
 import { 
   KittenNotFoundError, 
   NotEnoughSkillPointsError, 
   NotKittenOwnerError 
-} from '../../domain/errors';
+} from '@/kittens/domain/errors';
 
 describe('Assign Skill Points Use Case', () => {
   let fixture: KittenFixture;

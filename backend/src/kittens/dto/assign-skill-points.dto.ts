@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, Min, Max } from 'class-validator';
+import { IsInt, Min } from 'class-validator';
 
 export class AssignSkillPointsDto {
   @ApiProperty({ example: 1, description: 'Points to add to strength' })

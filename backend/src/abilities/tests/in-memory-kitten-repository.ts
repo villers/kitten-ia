@@ -1,4 +1,4 @@
-import { KittenRepository } from '../application/kitten.repository';
+import { KittenRepository } from '@/abilities/application/kitten.repository';
 
 export class InMemoryKittenRepository implements KittenRepository {
   private kittens: Array<{ id: string, userId: string }> = [];

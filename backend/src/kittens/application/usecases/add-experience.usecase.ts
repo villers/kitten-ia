@@ -1,8 +1,8 @@
-import { KittenRepository } from '../kitten.repository';
+import { KittenRepository } from '@/kittens/application/kitten.repository';
 import { Inject } from '@nestjs/common';
-import { KITTEN_REPOSITORY } from '../../tokens/tokens';
-import { Kitten } from '../../domain/kitten';
-import { KittenNotFoundError, NotKittenOwnerError } from '../../domain/errors';
+import { Kitten } from '@/kittens/domain/kitten';
+import { KittenNotFoundError, NotKittenOwnerError } from '@/kittens/domain/errors';
+import {KITTEN_REPOSITORY} from "@/kittens/tokens/tokens";
 
 export interface AddExperienceCommand {
   kittenId: string;

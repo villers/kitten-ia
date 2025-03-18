@@ -1,16 +1,15 @@
 import { BattleLog, Kitten, User } from '@prisma/client';
-import { InMemoryBattleRepository } from '../repositories/in-memory-battle-repository';
-import { InMemoryKittenRepository } from '../repositories/in-memory-kitten-repository';
-import { InMemoryUserRepository } from '../repositories/in-memory-user-repository';
-import { battleLogBuilder } from '../builders/battle-log.builder';
-import { battleMoveBuilder } from '../builders/battle-move.builder';
-import { CreateBattleDto } from '../../battles/dto/create-battle.dto';
-import { BattleStatus } from '../constants/enums';
+import { InMemoryBattleRepository } from '@/test/repositories/in-memory-battle-repository';
+import { InMemoryKittenRepository } from '@/test/repositories/in-memory-kitten-repository';
+import { InMemoryUserRepository } from '@/test/repositories/in-memory-user-repository';
+import { battleLogBuilder, battleMoveBuilder} from '@/test/builders';
+import { CreateBattleDto } from '@/battles/dto/create-battle.dto';
+import { BattleStatus } from '@/test/constants';
 
 export class BattleFixture {
-  private battleRepository = new InMemoryBattleRepository();
-  private kittenRepository = new InMemoryKittenRepository();
-  private userRepository = new InMemoryUserRepository();
+  private readonly battleRepository = new InMemoryBattleRepository();
+  private readonly kittenRepository = new InMemoryKittenRepository();
+  private readonly userRepository = new InMemoryUserRepository();
   private error: Error | null = null;
   private result: any = null;
   private date: Date = new Date();

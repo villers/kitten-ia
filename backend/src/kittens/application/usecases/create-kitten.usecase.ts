@@ -1,13 +1,14 @@
 import { KittenRepository } from '../kitten.repository';
 import { UserRepository } from '../user.repository';
 import { Inject } from '@nestjs/common';
-import { KITTEN_REPOSITORY, USER_REPOSITORY } from '../../tokens/tokens';
-import { Kitten } from '../../domain/kitten';
-import { KittenName } from '../../domain/kitten-name';
-import { KittenAttributes } from '../../domain/kitten-attributes';
-import { AttributeValue } from '../../domain/attribute-value';
-import { KittenNameAlreadyExistError, UserNotFoundForKittenCreationError } from '../../domain/errors';
+import { Kitten } from '@/kittens/domain/kitten';
+import { KittenName } from '@/kittens/domain/kitten-name';
+import { KittenAttributes } from '@/kittens/domain/kitten-attributes';
+import { AttributeValue } from '@/kittens/domain/attribute-value';
+import { KittenNameAlreadyExistError, UserNotFoundForKittenCreationError } from '@/kittens/domain/errors';
 import { randomUUID } from 'crypto';
+import {KITTEN_REPOSITORY} from "@/kittens/tokens/tokens";
+import {USER_REPOSITORY} from "@/users/tokens/tokens";
 
 export interface CreateKittenCommand {
   name: string;

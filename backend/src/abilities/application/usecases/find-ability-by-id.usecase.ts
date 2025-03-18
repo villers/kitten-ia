@@ -1,8 +1,8 @@
 import { Inject } from '@nestjs/common';
-import { AbilityRepository } from '../ability.repository';
-import { Ability } from '../../domain/ability';
-import { AbilityNotFoundError } from '../../domain/errors';
-import { ABILITY_REPOSITORY } from '../../tokens/tokens';
+import { AbilityRepository } from '@/abilities/application/ability.repository';
+import { Ability } from '@/abilities/domain/ability';
+import { AbilityNotFoundError } from '@/abilities/domain/errors';
+import { ABILITY_REPOSITORY } from '@/abilities/tokens/tokens';
 
 export interface FindAbilityByIdQuery {
   id: string;

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { AbilityType } from '@prisma/client';
-import { PrismaService } from '../../prisma/prisma.service';
-import { AbilityRepository } from '../application/ability.repository';
-import { Ability } from '../domain/ability';
+import { PrismaService } from '@/prisma/prisma.service';
+import { AbilityRepository } from '@/abilities/application/ability.repository';
+import { Ability } from '@/abilities/domain/ability';
 
 @Injectable()
 export class PrismaAbilityRepository implements AbilityRepository {

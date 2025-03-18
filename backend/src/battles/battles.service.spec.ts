@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { createBattleFixture } from '../test/fixtures/battle-fixture';
-import { BattleFixture } from '../test/fixtures/battle-fixture';
-import { userBuilder } from '../test/builders/user.builder';
-import { kittenBuilder } from '../test/builders/kitten.builder';
-import { battleLogBuilder } from '../test/builders/battle-log.builder';
-import { BattleStatus } from '../test/constants/enums';
+import { createBattleFixture } from '@/test/fixtures';
+import { BattleFixture } from '@/test/fixtures';
+import { userBuilder } from '@/test/builders';
+import { kittenBuilder } from '@/test/builders';
+import { battleLogBuilder } from '@/test/builders';
+import { BattleStatus } from '@/test/constants';
 
 describe('BattlesService', () => {
   let fixture: BattleFixture;

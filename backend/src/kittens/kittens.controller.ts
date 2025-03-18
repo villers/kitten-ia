@@ -26,15 +26,15 @@ import { AssignSkillPointsUseCase } from '@/kittens/application/usecases/assign-
 import { UpdateKittenUseCase } from '@/kittens/application/usecases/update-kitten.usecase';
 import { AddExperienceUseCase } from '@/kittens/application/usecases/add-experience.usecase';
 import { LevelUpUseCase } from '@/kittens/application/usecases/level-up.usecase';
-import { KittenRepository } from './application/kitten.repository';
-import { KITTEN_REPOSITORY } from './tokens/tokens';
-import { 
+import { KittenRepository } from '@/kittens/application/kitten.repository';
+import {
   KittenNameAlreadyExistError, 
   KittenNotFoundError, 
   NotEnoughSkillPointsError, 
   NotKittenOwnerError, 
   UserNotFoundForKittenCreationError 
 } from './domain/errors';
+import { KITTEN_REPOSITORY } from "@/kittens/tokens/tokens";
 
 @ApiTags('kittens')
 @ApiBearerAuth()

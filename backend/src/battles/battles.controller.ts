@@ -8,9 +8,9 @@ import {
   Request,
   Query,
 } from '@nestjs/common';
-import { BattlesService } from './battles.service';
-import { CreateBattleDto } from './dto/create-battle.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { BattlesService } from '@/battles/battles.service';
+import { CreateBattleDto } from '@/battles/dto/create-battle.dto';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 
 @ApiTags('battles')

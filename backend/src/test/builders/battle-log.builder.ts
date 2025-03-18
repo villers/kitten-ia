@@ -1,6 +1,6 @@
 import { BattleLog } from '@prisma/client';
-import { kittenBuilder } from './kitten.builder';
-import { BattleStatus } from '../constants/enums';
+import { kittenBuilder } from '@/test/builders/kitten.builder';
+import { BattleStatus } from '@/test/constants';
 
 interface BattleLogOptions {
   id?: string;
