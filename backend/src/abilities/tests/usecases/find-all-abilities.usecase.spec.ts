@@ -1,63 +1,55 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { AbilityType } from '@prisma/client';
-import { Ability } from '../../domain/ability';
 import { FindAllAbilitiesUseCase } from '../../application/usecases/find-all-abilities.usecase';
-import { InMemoryAbilityRepository } from '../in-memory-ability-repository';
+import { AbilityFixture, createAbilityFixture } from '../ability-fixture';
+import { abilityBuilder } from '../ability-builder';
 
 describe('FindAllAbilitiesUseCase', () => {
-  let abilityRepository: InMemoryAbilityRepository;
+  let fixture: AbilityFixture;
   let findAllAbilitiesUseCase: FindAllAbilitiesUseCase;
   
   const kittenId1 = 'kitten-1';
   const kittenId2 = 'kitten-2';
 
   beforeEach(() => {
-    abilityRepository = new InMemoryAbilityRepository();
-    findAllAbilitiesUseCase = new FindAllAbilitiesUseCase(abilityRepository);
+    fixture = createAbilityFixture();
+    findAllAbilitiesUseCase = new FindAllAbilitiesUseCase(fixture.getAbilityRepository());
     
     // Créer des capacités de test pour deux chatons différents
-    const ability1 = new Ability(
-      'ability-1',
-      'Scratch Attack',
-      'A powerful scratch attack',
-      AbilityType.ATTACK,
-      30,
-      90,
-      2,
-      kittenId1,
-      new Date(),
-      new Date()
-    );
+    const ability1 = abilityBuilder()
+      .withId('ability-1')
+      .withName('Scratch Attack')
+      .withDescription('A powerful scratch attack')
+      .withType(AbilityType.ATTACK)
+      .withPower(30)
+      .withAccuracy(90)
+      .withCooldown(2)
+      .withKittenId(kittenId1)
+      .build();
     
-    const ability2 = new Ability(
-      'ability-2',
-      'Healing Purr',
-      'A soothing purr that heals',
-      AbilityType.HEAL,
-      25,
-      100,
-      3,
-      kittenId1,
-      new Date(),
-      new Date()
-    );
+    const ability2 = abilityBuilder()
+      .withId('ability-2')
+      .withName('Healing Purr')
+      .withDescription('A soothing purr that heals')
+      .withType(AbilityType.HEAL)
+      .withPower(25)
+      .withAccuracy(100)
+      .withCooldown(3)
+      .withKittenId(kittenId1)
+      .build();
     
-    const ability3 = new Ability(
-      'ability-3',
-      'Quick Dodge',
-      'Dodge the next attack',
-      AbilityType.DEFENSE,
-      0,
-      95,
-      2,
-      kittenId2,
-      new Date(),
-      new Date()
-    );
+    const ability3 = abilityBuilder()
+      .withId('ability-3')
+      .withName('Quick Dodge')
+      .withDescription('Dodge the next attack')
+      .withType(AbilityType.DEFENSE)
+      .withPower(0)
+      .withAccuracy(95)
+      .withCooldown(2)
+      .withKittenId(kittenId2)
+      .build();
     
-    abilityRepository.addAbility(ability1);
-    abilityRepository.addAbility(ability2);
-    abilityRepository.addAbility(ability3);
+    fixture.givenAbilityExists([ability1, ability2, ability3]);
   });
 
   it('should find all abilities', async () => {

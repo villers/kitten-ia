@@ -1,33 +1,28 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { AbilityType } from '@prisma/client';
 import { CreateAbilityUseCase } from '../../application/usecases/create-ability.usecase';
-import { InMemoryAbilityRepository } from '../in-memory-ability-repository';
-import { InMemoryKittenRepository } from '../in-memory-kitten-repository';
 import { KittenNotFoundError, NotKittenOwnerError } from '../../domain/errors';
+import { AbilityFixture, createAbilityFixture } from '../ability-fixture';
 
 describe('CreateAbilityUseCase', () => {
-  let abilityRepository: InMemoryAbilityRepository;
-  let kittenRepository: InMemoryKittenRepository;
+  let fixture: AbilityFixture;
   let createAbilityUseCase: CreateAbilityUseCase;
-  let fixedDate: Date;
 
   beforeEach(() => {
-    abilityRepository = new InMemoryAbilityRepository();
-    kittenRepository = new InMemoryKittenRepository();
+    fixture = createAbilityFixture();
+    fixture.givenCurrentDate(new Date('2023-01-01T00:00:00Z'));
     
     createAbilityUseCase = new CreateAbilityUseCase(
-      abilityRepository,
-      kittenRepository
+      fixture.getAbilityRepository(),
+      fixture.getKittenRepository()
     );
-    
-    fixedDate = new Date('2023-01-01T00:00:00Z');
-    createAbilityUseCase.setDateProvider(() => fixedDate);
+    createAbilityUseCase.setDateProvider(() => fixture.getCurrentDate());
     
     // Ajouter un chaton pour les tests
-    kittenRepository.addKitten({
+    fixture.givenKittenExists([{
       id: 'kitten-1',
       userId: 'user-1'
-    });
+    }]);
   });
 
   it('should create an ability with valid data', async () => {
@@ -55,11 +50,11 @@ describe('CreateAbilityUseCase', () => {
     expect(ability.accuracy).toBe(command.accuracy);
     expect(ability.cooldown).toBe(command.cooldown);
     expect(ability.kittenId).toBe(command.kittenId);
-    expect(ability.createdAt).toBe(fixedDate);
-    expect(ability.updatedAt).toBe(fixedDate);
+    expect(ability.createdAt).toBe(fixture.getCurrentDate());
+    expect(ability.updatedAt).toBe(fixture.getCurrentDate());
 
     // Verify that the ability was saved
-    const savedAbility = await abilityRepository.findById(ability.id);
+    const savedAbility = await fixture.getAbilityRepository().findById(ability.id);
     expect(savedAbility).not.toBeNull();
   });
 
