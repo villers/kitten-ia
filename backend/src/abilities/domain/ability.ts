@@ -1,5 +1,5 @@
 import { AbilityType } from '@prisma/client';
-import { AbilityNameTooShortError, AbilityNameTooLongError, InvalidPowerValueError, InvalidAccuracyValueError, InvalidCooldownValueError } from './errors';
+import { AbilityNameTooShortError, AbilityNameTooLongError, InvalidPowerValueError, InvalidAccuracyValueError, InvalidCooldownValueError } from '@/abilities/domain/errors';
 
 export class Ability {
   constructor(

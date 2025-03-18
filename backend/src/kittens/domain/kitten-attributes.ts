@@ -1,4 +1,4 @@
-import { AttributeValue } from './attribute-value';
+import { AttributeValue } from '@/kittens/domain/attribute-value';
 
 export class KittenAttributes {
   private static readonly BASE_HP = 50;

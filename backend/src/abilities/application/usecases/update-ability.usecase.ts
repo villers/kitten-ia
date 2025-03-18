@@ -1,10 +1,11 @@
 import { Inject } from '@nestjs/common';
 import { AbilityType } from '@prisma/client';
-import { AbilityRepository } from '../ability.repository';
-import { KittenRepository } from '../kitten.repository';
-import { Ability } from '../../domain/ability';
-import { AbilityNotFoundError, NotKittenOwnerError } from '../../domain/errors';
-import { ABILITY_REPOSITORY, KITTEN_REPOSITORY } from '../../tokens/tokens';
+import { AbilityRepository } from '@/abilities/application/ability.repository';
+import { KittenRepository } from '@/abilities/application/kitten.repository';
+import { Ability } from '@/abilities/domain/ability';
+import { AbilityNotFoundError, NotKittenOwnerError } from '@/abilities/domain/errors';
+import { ABILITY_REPOSITORY } from '@/abilities/tokens/tokens';
+import {KITTEN_REPOSITORY} from "@/kittens/tokens/tokens";
 
 export interface UpdateAbilityCommand {
   id: string;

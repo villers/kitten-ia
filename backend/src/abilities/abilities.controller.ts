@@ -13,16 +13,16 @@ import {
   ForbiddenException,
   BadRequestException,
 } from '@nestjs/common';
-import { CreateAbilityDto } from './dto/create-ability.dto';
-import { UpdateAbilityDto } from './dto/update-ability.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CreateAbilityDto } from '@/abilities/dto/create-ability.dto';
+import { UpdateAbilityDto } from '@/abilities/dto/update-ability.dto';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 
-import { CreateAbilityUseCase } from './application/usecases/create-ability.usecase';
-import { FindAbilityByIdUseCase } from './application/usecases/find-ability-by-id.usecase';
-import { FindAllAbilitiesUseCase } from './application/usecases/find-all-abilities.usecase';
-import { UpdateAbilityUseCase } from './application/usecases/update-ability.usecase';
-import { DeleteAbilityUseCase } from './application/usecases/delete-ability.usecase';
+import { CreateAbilityUseCase } from '@/abilities/application/usecases/create-ability.usecase';
+import { FindAbilityByIdUseCase } from '@/abilities/application/usecases/find-ability-by-id.usecase';
+import { FindAllAbilitiesUseCase } from '@/abilities/application/usecases/find-all-abilities.usecase';
+import { UpdateAbilityUseCase } from '@/abilities/application/usecases/update-ability.usecase';
+import { DeleteAbilityUseCase } from '@/abilities/application/usecases/delete-ability.usecase';
 
 import { 
   AbilityNotFoundError, 
@@ -33,7 +33,7 @@ import {
   InvalidPowerValueError,
   InvalidAccuracyValueError,
   InvalidCooldownValueError
-} from './domain/errors';
+} from '@/abilities/domain/errors';
 
 @ApiTags('abilities')
 @ApiBearerAuth()

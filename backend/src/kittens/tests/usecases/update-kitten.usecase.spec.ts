@@ -1,11 +1,9 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { Kitten } from '../../domain/kitten';
-import { KittenName } from '../../domain/kitten-name';
-import { KittenAttributes } from '../../domain/kitten-attributes';
-import { KittenNotFoundError, NotKittenOwnerError } from '../../domain/errors';
-import { InMemoryKittenRepository } from '../in-memory-kitten-repository';
-import { UpdateKittenUseCase } from '../../application/usecases/update-kitten.usecase';
-import { kittenBuilder } from '../kitten-builder';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { Kitten } from '@/kittens/domain/kitten';
+import { KittenNotFoundError, NotKittenOwnerError } from '@/kittens/domain/errors';
+import { InMemoryKittenRepository } from '@/kittens/tests/in-memory-kitten-repository';
+import { UpdateKittenUseCase } from '@/kittens/application/usecases/update-kitten.usecase';
+import { kittenBuilder } from '@/kittens/tests/kitten-builder';
 
 describe('UpdateKittenUseCase', () => {
   let repository: InMemoryKittenRepository;

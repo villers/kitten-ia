@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { KittenAttributes } from './kitten-attributes';
-import { AttributeValue } from './attribute-value';
+import { KittenAttributes } from '@/kittens/domain/kitten-attributes';
+import { AttributeValue } from '@/kittens/domain/attribute-value';
 
 describe('KittenAttributes', () => {
   it('should create kitten attributes with default values', () => {

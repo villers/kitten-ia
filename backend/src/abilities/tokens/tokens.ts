@@ -1,2 +1,1 @@
 export const ABILITY_REPOSITORY = Symbol('ABILITY_REPOSITORY');
-export const KITTEN_REPOSITORY = Symbol('KITTEN_REPOSITORY');

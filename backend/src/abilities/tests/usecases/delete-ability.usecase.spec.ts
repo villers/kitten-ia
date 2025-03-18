@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { AbilityType } from '@prisma/client';
-import { DeleteAbilityUseCase } from '../../application/usecases/delete-ability.usecase';
-import { AbilityNotFoundError, NotKittenOwnerError } from '../../domain/errors';
-import { AbilityFixture, createAbilityFixture } from '../ability-fixture';
-import { abilityBuilder } from '../ability-builder';
+import { DeleteAbilityUseCase } from '@/abilities/application/usecases/delete-ability.usecase';
+import { AbilityNotFoundError, NotKittenOwnerError } from '@/abilities/domain/errors';
+import { AbilityFixture, createAbilityFixture } from '@/abilities/tests/ability-fixture';
+import { abilityBuilder } from '@/abilities/tests/ability-builder';
 
 describe('DeleteAbilityUseCase', () => {
   let fixture: AbilityFixture;

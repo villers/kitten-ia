@@ -1,8 +1,9 @@
 import { Inject } from '@nestjs/common';
-import { AbilityRepository } from '../ability.repository';
-import { KittenRepository } from '../kitten.repository';
-import { AbilityNotFoundError, NotKittenOwnerError } from '../../domain/errors';
-import { ABILITY_REPOSITORY, KITTEN_REPOSITORY } from '../../tokens/tokens';
+import { AbilityRepository } from '@/abilities/application/ability.repository';
+import { KittenRepository } from '@/abilities/application/kitten.repository';
+import { AbilityNotFoundError, NotKittenOwnerError } from '@/abilities/domain/errors';
+import { ABILITY_REPOSITORY } from '@/abilities/tokens/tokens';
+import {KITTEN_REPOSITORY} from "@/kittens/tokens/tokens";
 
 export interface DeleteAbilityCommand {
   id: string;

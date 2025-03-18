@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { BattleStatus } from '@prisma/client';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateBattleDto } from './dto/create-battle.dto';
-import { BattleEngineService } from './services/battle-engine.service';
-import { BattleState, convertKittenToBattleKitten } from './models/battle-state.model';
+import { PrismaService } from '@/prisma/prisma.service';
+import { CreateBattleDto } from '@/battles/dto/create-battle.dto';
+import { BattleEngineService } from '@/battles/services/battle-engine.service';
+import { BattleState, convertKittenToBattleKitten } from '@/battles/models/battle-state.model';
 
 @Injectable()
 export class BattlesService {
   constructor(
-    private prisma: PrismaService,
-    private battleEngineService: BattleEngineService,
+    private readonly prisma: PrismaService,
+    private readonly battleEngineService: BattleEngineService,
   ) {}
 
   async create(createBattleDto: CreateBattleDto, challengerId: string, userId: string) {

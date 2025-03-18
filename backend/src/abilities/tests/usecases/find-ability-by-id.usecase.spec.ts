@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { AbilityType } from '@prisma/client';
-import { FindAbilityByIdUseCase } from '../../application/usecases/find-ability-by-id.usecase';
-import { AbilityNotFoundError } from '../../domain/errors';
-import { AbilityFixture, createAbilityFixture } from '../ability-fixture';
-import { abilityBuilder } from '../ability-builder';
+import { FindAbilityByIdUseCase } from '@/abilities/application/usecases/find-ability-by-id.usecase';
+import { AbilityNotFoundError } from '@/abilities/domain/errors';
+import { AbilityFixture, createAbilityFixture } from '@/abilities/tests/ability-fixture';
+import { abilityBuilder } from '@/abilities/tests/ability-builder';
 
 describe('FindAbilityByIdUseCase', () => {
   let fixture: AbilityFixture;

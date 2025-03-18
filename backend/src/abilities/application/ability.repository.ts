@@ -1,4 +1,4 @@
-import { Ability } from '../domain/ability';
+import { Ability } from '@/abilities/domain/ability';
 
 export interface AbilityRepository {
   findById(id: string): Promise<Ability | null>;

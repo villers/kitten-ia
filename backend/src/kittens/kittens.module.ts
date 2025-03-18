@@ -8,7 +8,8 @@ import { AddExperienceUseCase } from '@/kittens/application/usecases/add-experie
 import { LevelUpUseCase } from '@/kittens/application/usecases/level-up.usecase';
 import { PrismaKittenRepository } from '@/kittens/infrastructure/prisma-kitten.repository';
 import { PrismaUserRepository } from '@/kittens/infrastructure/prisma-user.repository';
-import { KITTEN_REPOSITORY, USER_REPOSITORY } from './tokens/tokens';
+import { KITTEN_REPOSITORY } from "@/kittens/tokens/tokens";
+import { USER_REPOSITORY } from "@/users/tokens/tokens";
 
 @Module({
   imports: [PrismaModule],

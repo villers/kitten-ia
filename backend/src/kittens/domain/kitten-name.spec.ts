@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { KittenName } from './kitten-name';
-import { KittenNameTooShortError, KittenNameTooLongError } from './errors';
+import { KittenName } from '@/kittens/domain/kitten-name';
+import { KittenNameTooShortError, KittenNameTooLongError } from '@/kittens/domain/errors';
 
 describe('KittenName', () => {
   it('should create a valid kitten name', () => {

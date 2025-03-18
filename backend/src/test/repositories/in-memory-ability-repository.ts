@@ -1,5 +1,5 @@
 import { Ability } from '@prisma/client';
-import { InMemoryRepository } from './in-memory-repository';
+import { InMemoryRepository } from '@/test/repositories/in-memory-repository';
 
 export class InMemoryAbilityRepository extends InMemoryRepository<Ability> {
   async findByKittenId(kittenId: string): Promise<Ability[]> {

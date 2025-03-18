@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
-import { KittenRepository } from '../application/kitten.repository';
+import { PrismaService } from '@/prisma/prisma.service';
+import { KittenRepository } from '@/abilities/application/kitten.repository';
 
 @Injectable()
 export class PrismaKittenRepository implements KittenRepository {

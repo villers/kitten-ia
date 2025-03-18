@@ -1,3 +1,3 @@
-export * from './user-fixture';
-export * from './kitten-fixture';
-export * from './battle-fixture';
+export * from '@/test/fixtures/user-fixture';
+export * from '@/test/fixtures/kitten-fixture';
+export * from '@/test/fixtures/battle-fixture';

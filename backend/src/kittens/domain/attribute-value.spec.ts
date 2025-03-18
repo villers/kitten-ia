@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { AttributeValue } from './attribute-value';
+import { AttributeValue } from '@/kittens/domain/attribute-value';
 
 describe('AttributeValue', () => {
   it('should create a valid attribute value', () => {

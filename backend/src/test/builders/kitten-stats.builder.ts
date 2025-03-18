@@ -1,5 +1,5 @@
 import { KittenStats } from '@prisma/client';
-import { kittenBuilder } from './kitten.builder';
+import { kittenBuilder } from '@/test/builders/kitten.builder';
 
 interface KittenStatsOptions {
   id?: string;

@@ -1,5 +1,5 @@
 import { AbilityType } from '@prisma/client';
-import { Ability } from '../domain/ability';
+import { Ability } from '@/abilities/domain/ability';
 
 interface AbilityBuilderOptions {
   id?: string;

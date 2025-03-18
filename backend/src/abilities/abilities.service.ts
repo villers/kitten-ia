@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateAbilityDto } from './dto/create-ability.dto';
-import { UpdateAbilityDto } from './dto/update-ability.dto';
+import { PrismaService } from '@/prisma/prisma.service';
+import { CreateAbilityDto } from '@/abilities/dto/create-ability.dto';
+import { UpdateAbilityDto } from '@/abilities/dto/update-ability.dto';
 
 @Injectable()
 export class AbilitiesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createAbilityDto: CreateAbilityDto, kittenId: string, userId: string) {
     // Vérifier si le chaton appartient à l'utilisateur

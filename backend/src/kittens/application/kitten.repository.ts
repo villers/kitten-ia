@@ -1,4 +1,4 @@
-import { Kitten } from '../domain/kitten';
+import { Kitten } from '@/kittens/domain/kitten';
 
 export interface KittenRepository {
   findById(id: string): Promise<Kitten | null>;

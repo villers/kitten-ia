@@ -1,10 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { Kitten } from '../../domain/kitten';
-import { KittenAttributes } from '../../domain/kitten-attributes';
-import { KittenNotFoundError, NotKittenOwnerError } from '../../domain/errors';
-import { InMemoryKittenRepository } from '../in-memory-kitten-repository';
-import { AddExperienceUseCase } from '../../application/usecases/add-experience.usecase';
-import { kittenBuilder } from '../kitten-builder';
+import { Kitten } from '@/kittens/domain/kitten';
+import { KittenNotFoundError, NotKittenOwnerError } from '@/kittens/domain/errors';
+import { InMemoryKittenRepository } from '@/kittens/tests/in-memory-kitten-repository';
+import { AddExperienceUseCase } from '@/kittens/application/usecases/add-experience.usecase';
+import { kittenBuilder } from '@/kittens/tests/kitten-builder';
 
 describe('AddExperienceUseCase', () => {
   let repository: InMemoryKittenRepository;

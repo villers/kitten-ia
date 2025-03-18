@@ -1,14 +1,14 @@
 import { Kitten, User } from '@prisma/client';
-import { InMemoryKittenRepository } from '../repositories/in-memory-kitten-repository';
-import { InMemoryUserRepository } from '../repositories/in-memory-user-repository';
-import { kittenBuilder } from '../builders/kitten.builder';
-import { CreateKittenDto } from '../../kittens/dto/create-kitten.dto';
-import { UpdateKittenDto } from '../../kittens/dto/update-kitten.dto';
-import { AssignSkillPointsDto } from '../../kittens/dto/assign-skill-points.dto';
+import { InMemoryKittenRepository } from '@/test/repositories/in-memory-kitten-repository';
+import { InMemoryUserRepository } from '@/test/repositories/in-memory-user-repository';
+import { kittenBuilder } from '@/test/builders';
+import { CreateKittenDto } from '@/kittens/dto/create-kitten.dto';
+import { UpdateKittenDto } from '@/kittens/dto/update-kitten.dto';
+import { AssignSkillPointsDto } from '@/kittens/dto/assign-skill-points.dto';
 
 export class KittenFixture {
-  private kittenRepository = new InMemoryKittenRepository();
-  private userRepository = new InMemoryUserRepository();
+  private readonly kittenRepository = new InMemoryKittenRepository();
+  private readonly userRepository = new InMemoryUserRepository();
   private error: Error | null = null;
   private result: any = null;
   private date: Date = new Date();

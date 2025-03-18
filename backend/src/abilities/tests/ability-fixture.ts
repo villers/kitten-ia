@@ -1,8 +1,8 @@
 import { AbilityType } from '@prisma/client';
-import { Ability } from '../domain/ability';
-import { abilityBuilder } from './ability-builder';
-import { InMemoryAbilityRepository } from './in-memory-ability-repository';
-import { InMemoryKittenRepository } from './in-memory-kitten-repository';
+import { Ability } from '@/abilities/domain/ability';
+import { abilityBuilder } from '@/abilities/tests/ability-builder';
+import { InMemoryAbilityRepository } from '@/abilities/tests/in-memory-ability-repository';
+import { InMemoryKittenRepository } from '@/abilities/tests/in-memory-kitten-repository';
 
 export interface AbilityFixture {
   getAbilityRepository(): InMemoryAbilityRepository;

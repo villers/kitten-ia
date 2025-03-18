@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { AbilityType } from '@prisma/client';
-import { CreateAbilityUseCase } from '../../application/usecases/create-ability.usecase';
-import { KittenNotFoundError, NotKittenOwnerError } from '../../domain/errors';
-import { AbilityFixture, createAbilityFixture } from '../ability-fixture';
+import { CreateAbilityUseCase } from '@/abilities/application/usecases/create-ability.usecase';
+import { KittenNotFoundError, NotKittenOwnerError } from '@/abilities/domain/errors';
+import { AbilityFixture, createAbilityFixture } from '@/abilities/tests/ability-fixture';
 
 describe('CreateAbilityUseCase', () => {
   let fixture: AbilityFixture;

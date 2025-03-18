@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { Kitten } from './kitten';
-import { KittenName } from './kitten-name';
-import { KittenAttributes } from './kitten-attributes';
-import { AttributeValue } from './attribute-value';
-import { NotEnoughSkillPointsError } from './errors';
+import { Kitten } from '@/kittens/domain/kitten';
+import { KittenName } from '@/kittens/domain/kitten-name';
+import { KittenAttributes } from '@/kittens/domain/kitten-attributes';
+import { AttributeValue } from '@/kittens/domain/attribute-value';
+import { NotEnoughSkillPointsError } from '@/kittens/domain/errors';
 
 describe('Kitten', () => {
   it('should create a kitten with valid data', () => {

@@ -1,4 +1,4 @@
-import { KittenNameTooLongError, KittenNameTooShortError } from './errors';
+import { KittenNameTooLongError, KittenNameTooShortError } from '@/kittens/domain/errors';
 
 export class KittenName {
   private readonly _value: string;

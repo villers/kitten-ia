@@ -1,6 +1,6 @@
 import { Ability } from '@prisma/client';
-import { kittenBuilder } from './kitten.builder';
-import { AbilityType } from '../constants/enums';
+import { kittenBuilder } from '@/test/builders/kitten.builder';
+import { AbilityType } from '@/test/constants';
 
 interface AbilityOptions {
   id?: string;

@@ -1,5 +1,5 @@
-import { AbilityRepository } from '../application/ability.repository';
-import { Ability } from '../domain/ability';
+import { AbilityRepository } from '@/abilities/application/ability.repository';
+import { Ability } from '@/abilities/domain/ability';
 
 export class InMemoryAbilityRepository implements AbilityRepository {
   private abilities: Ability[] = [];
