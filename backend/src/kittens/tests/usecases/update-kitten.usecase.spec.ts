@@ -1,19 +1,19 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Kitten } from '@/kittens/domain/kitten';
 import { KittenNotFoundError, NotKittenOwnerError } from '@/kittens/domain/errors';
-import { InMemoryKittenRepository } from '@/kittens/tests/in-memory-kitten-repository';
 import { UpdateKittenUseCase } from '@/kittens/application/usecases/update-kitten.usecase';
 import { kittenBuilder } from '@/kittens/tests/kitten-builder';
+import { KittenFixture, createKittenFixture } from '@/kittens/tests/kitten-fixture';
 
 describe('UpdateKittenUseCase', () => {
-  let repository: InMemoryKittenRepository;
+  let fixture: KittenFixture;
   let useCase: UpdateKittenUseCase;
   let kitten: Kitten;
   let userId: string;
 
   beforeEach(() => {
-    repository = new InMemoryKittenRepository();
-    useCase = new UpdateKittenUseCase(repository);
+    fixture = createKittenFixture();
+    useCase = new UpdateKittenUseCase(fixture.getKittenRepository());
     userId = 'user-1';
     
     kitten = kittenBuilder()
@@ -31,7 +31,7 @@ describe('UpdateKittenUseCase', () => {
       .withUpdatedAt(new Date('2023-01-01'))
       .build();
       
-    repository.save(kitten);
+    fixture.givenKittenExists([kitten]);
   });
 
   it('should update kitten name', async () => {
@@ -39,18 +39,25 @@ describe('UpdateKittenUseCase', () => {
     const newName = 'Fluffy';
     
     // When
-    const updatedKitten = await useCase.execute({
-      kittenId: kitten.id,
-      userId: userId,
-      name: newName
-    });
+    try {
+      const updatedKitten = await useCase.execute({
+        kittenId: kitten.id,
+        userId: userId,
+        name: newName
+      });
+      fixture.setResult(updatedKitten);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
     
     // Then
-    expect(updatedKitten.name.toString()).toBe(newName);
-    expect(updatedKitten.avatarUrl).toBe(kitten.avatarUrl);
+    fixture.thenKittenShouldMatchProperties({
+      name: { value: newName },
+      avatarUrl: kitten.avatarUrl
+    });
     
     // Verify kitten was saved
-    const savedKitten = await repository.findById(kitten.id);
+    const savedKitten = await fixture.getKittenRepository().findById(kitten.id);
     expect(savedKitten?.name.toString()).toBe(newName);
   });
 
@@ -59,18 +66,24 @@ describe('UpdateKittenUseCase', () => {
     const newAvatarUrl = 'https://example.com/new-avatar.jpg';
     
     // When
-    const updatedKitten = await useCase.execute({
-      kittenId: kitten.id,
-      userId: userId,
+    try {
+      const updatedKitten = await useCase.execute({
+        kittenId: kitten.id,
+        userId: userId,
+        avatarUrl: newAvatarUrl
+      });
+      fixture.setResult(updatedKitten);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
+    
+    // Then
+    fixture.thenKittenShouldMatchProperties({
       avatarUrl: newAvatarUrl
     });
     
-    // Then
-    expect(updatedKitten.name).toEqual(kitten.name);
-    expect(updatedKitten.avatarUrl).toBe(newAvatarUrl);
-    
     // Verify kitten was saved
-    const savedKitten = await repository.findById(kitten.id);
+    const savedKitten = await fixture.getKittenRepository().findById(kitten.id);
     expect(savedKitten?.avatarUrl).toBe(newAvatarUrl);
   });
 
@@ -80,48 +93,85 @@ describe('UpdateKittenUseCase', () => {
     const newAvatarUrl = 'https://example.com/new-avatar.jpg';
     
     // When
-    const updatedKitten = await useCase.execute({
-      kittenId: kitten.id,
-      userId: userId,
-      name: newName,
-      avatarUrl: newAvatarUrl
-    });
+    try {
+      const updatedKitten = await useCase.execute({
+        kittenId: kitten.id,
+        userId: userId,
+        name: newName,
+        avatarUrl: newAvatarUrl
+      });
+      fixture.setResult(updatedKitten);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
     
     // Then
-    expect(updatedKitten.name.toString()).toBe(newName);
-    expect(updatedKitten.avatarUrl).toBe(newAvatarUrl);
+    fixture.thenKittenShouldMatchProperties({
+      name: { value: newName },
+      avatarUrl: newAvatarUrl
+    });
   });
 
   it('should throw KittenNotFoundError when kitten does not exist', async () => {
     // Given
     const nonExistentKittenId = 'non-existent-id';
     
-    // When & Then
-    await expect(useCase.execute({
-      kittenId: nonExistentKittenId,
-      userId: userId,
-      name: 'New Name'
-    })).rejects.toThrow(KittenNotFoundError);
+    // When
+    try {
+      const result = await useCase.execute({
+        kittenId: nonExistentKittenId,
+        userId: userId,
+        name: 'New Name'
+      });
+      fixture.setResult(result);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
+    
+    // Then
+    fixture.thenErrorShouldBeInstanceOf(KittenNotFoundError);
   });
 
   it('should throw NotKittenOwnerError when user is not the owner', async () => {
     // Given
     const anotherUserId = 'another-user';
     
-    // When & Then
-    await expect(useCase.execute({
-      kittenId: kitten.id,
-      userId: anotherUserId,
-      name: 'New Name'
-    })).rejects.toThrow(NotKittenOwnerError);
+    // When
+    try {
+      const result = await useCase.execute({
+        kittenId: kitten.id,
+        userId: anotherUserId,
+        name: 'New Name'
+      });
+      fixture.setResult(result);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
+    
+    // Then
+    fixture.thenErrorShouldBeInstanceOf(NotKittenOwnerError);
   });
 
   it('should throw error when neither name nor avatarUrl is provided', async () => {
-    // When & Then
-    await expect(useCase.execute({
-      kittenId: kitten.id,
-      userId: userId
-    })).rejects.toThrow('At least one of name or avatarUrl must be provided');
+    // When
+    try {
+      const result = await useCase.execute({
+        kittenId: kitten.id,
+        userId: userId
+      });
+      fixture.setResult(result);
+      // Should not reach here
+      expect(true).toBe(false);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
+    
+    // Then
+    fixture.thenErrorMessageShouldContain('At least one of name or avatarUrl must be provided');
   });
 
   it('should set avatarUrl to null when explicitly set to null', async () => {
@@ -142,16 +192,23 @@ describe('UpdateKittenUseCase', () => {
       .withAvatarUrl('https://example.com/avatar.jpg')
       .build();
       
-    repository.save(kittenWithAvatar);
+    fixture.givenKittenExists([kittenWithAvatar]);
     
     // When
-    const updatedKitten = await useCase.execute({
-      kittenId: kittenWithAvatar.id,
-      userId: userId,
-      avatarUrl: null
-    });
+    try {
+      const updatedKitten = await useCase.execute({
+        kittenId: kittenWithAvatar.id,
+        userId: userId,
+        avatarUrl: null
+      });
+      fixture.setResult(updatedKitten);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
     
     // Then
-    expect(updatedKitten.avatarUrl).toBeNull();
+    fixture.thenKittenShouldMatchProperties({
+      avatarUrl: null
+    });
   });
 });

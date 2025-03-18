@@ -31,26 +31,35 @@ describe('Create Kitten Use Case', () => {
     fixture.givenUserExists([user]);
 
     // When
-    const result = await createKittenUseCase.execute({
-      name: 'Whiskers',
-      strength: 7,
-      agility: 6,
-      constitution: 8,
-      intelligence: 5,
-      userId
-    });
+    try {
+      const result = await createKittenUseCase.execute({
+        name: 'Whiskers',
+        strength: 7,
+        agility: 6,
+        constitution: 8,
+        intelligence: 5,
+        userId
+      });
+      fixture.setResult(result);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
 
     // Then
-    expect(result).toBeInstanceOf(Kitten);
-    expect(result.name.value).toBe('Whiskers');
-    expect(result.userId).toBe(userId);
-    expect(result.attributes.strength.value).toBe(7);
-    expect(result.attributes.agility.value).toBe(6);
-    expect(result.attributes.constitution.value).toBe(8);
-    expect(result.attributes.intelligence.value).toBe(5);
-    expect(result.level).toBe(1);
-    expect(result.experience).toBe(0);
-    expect(result.skillPoints).toBe(0);
+    fixture.thenResultShouldBeInstanceOf(Kitten);
+    fixture.thenKittenShouldMatchProperties({
+      name: { value: 'Whiskers' },
+      userId: userId,
+      attributes: {
+        strength: { value: 7 },
+        agility: { value: 6 },
+        constitution: { value: 8 },
+        intelligence: { value: 5 }
+      },
+      level: 1,
+      experience: 0,
+      skillPoints: 0
+    });
   });
 
   it('should create a kitten with default attributes if not provided', async () => {
@@ -65,33 +74,44 @@ describe('Create Kitten Use Case', () => {
     fixture.givenUserExists([user]);
 
     // When
-    const result = await createKittenUseCase.execute({
-      name: 'Whiskers',
-      userId
-    });
+    try {
+      const result = await createKittenUseCase.execute({
+        name: 'Whiskers',
+        userId
+      });
+      fixture.setResult(result);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
 
     // Then
-    expect(result).toBeInstanceOf(Kitten);
-    expect(result.name.value).toBe('Whiskers');
-    expect(result.userId).toBe(userId);
-    expect(result.attributes.strength.value).toBe(5);
-    expect(result.attributes.agility.value).toBe(5);
-    expect(result.attributes.constitution.value).toBe(5);
-    expect(result.attributes.intelligence.value).toBe(5);
+    fixture.thenResultShouldBeInstanceOf(Kitten);
+    fixture.thenKittenShouldMatchProperties({
+      name: { value: 'Whiskers' },
+      userId: userId,
+      attributes: {
+        strength: { value: 5 },
+        agility: { value: 5 },
+        constitution: { value: 5 },
+        intelligence: { value: 5 }
+      }
+    });
   });
 
   it('should throw an error if user does not exist', async () => {
     // When
     try {
-      await createKittenUseCase.execute({
+      const result = await createKittenUseCase.execute({
         name: 'Whiskers',
         userId: 'non-existent-user'
       });
+      fixture.setResult(result);
       // Should not reach here
       expect(true).toBe(false);
     } catch (error) {
+      fixture.setError(error as Error);
       // Then
-      expect(error).toBeInstanceOf(UserNotFoundForKittenCreationError);
+      fixture.thenErrorShouldBeInstanceOf(UserNotFoundForKittenCreationError);
     }
   });
 
@@ -114,15 +134,17 @@ describe('Create Kitten Use Case', () => {
 
     // When
     try {
-      await createKittenUseCase.execute({
+      const result = await createKittenUseCase.execute({
         name: 'Whiskers',
         userId
       });
+      fixture.setResult(result);
       // Should not reach here
       expect(true).toBe(false);
     } catch (error) {
+      fixture.setError(error as Error);
       // Then
-      expect(error).toBeInstanceOf(KittenNameAlreadyExistError);
+      fixture.thenErrorShouldBeInstanceOf(KittenNameAlreadyExistError);
     }
   });
 });

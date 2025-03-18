@@ -57,10 +57,16 @@ describe('FindAllAbilitiesUseCase', () => {
     const query = {};
 
     // When
-    const abilities = await findAllAbilitiesUseCase.execute(query);
+    try {
+      const abilities = await findAllAbilitiesUseCase.execute(query);
+      fixture.setResult(abilities);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
 
     // Then
-    expect(abilities).toHaveLength(3);
+    fixture.thenResultShouldBeArray();
+    fixture.thenResultShouldHaveLength(3);
   });
 
   it('should find abilities for a specific kitten', async () => {
@@ -70,11 +76,17 @@ describe('FindAllAbilitiesUseCase', () => {
     };
 
     // When
-    const abilities = await findAllAbilitiesUseCase.execute(query);
+    try {
+      const abilities = await findAllAbilitiesUseCase.execute(query);
+      fixture.setResult(abilities);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
 
     // Then
-    expect(abilities).toHaveLength(2);
-    expect(abilities.every(a => a.kittenId === kittenId1)).toBe(true);
+    fixture.thenResultShouldBeArray();
+    fixture.thenResultShouldHaveLength(2);
+    fixture.thenAllResultItemsShouldHaveProperty('kittenId', kittenId1);
   });
 
   it('should return empty array when no abilities found for a kitten', async () => {
@@ -84,9 +96,15 @@ describe('FindAllAbilitiesUseCase', () => {
     };
 
     // When
-    const abilities = await findAllAbilitiesUseCase.execute(query);
+    try {
+      const abilities = await findAllAbilitiesUseCase.execute(query);
+      fixture.setResult(abilities);
+    } catch (error) {
+      fixture.setError(error as Error);
+    }
 
     // Then
-    expect(abilities).toHaveLength(0);
+    fixture.thenResultShouldBeArray();
+    fixture.thenResultShouldHaveLength(0);
   });
 });
