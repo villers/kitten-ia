@@ -19,13 +19,16 @@ export interface CreateAbilityCommand {
 }
 
 export class CreateAbilityUseCase {
+  private dateProvider: () => Date;
+
   constructor(
     @Inject(ABILITY_REPOSITORY)
     private readonly abilityRepository: AbilityRepository,
     @Inject(KITTEN_REPOSITORY)
-    private readonly kittenRepository: KittenRepository,
-    private readonly dateProvider: () => Date = () => new Date()
-  ) {}
+    private readonly kittenRepository: KittenRepository
+  ) {
+    this.dateProvider = () => new Date();
+  }
 
   setDateProvider(dateProvider: () => Date): void {
     this.dateProvider = dateProvider;
