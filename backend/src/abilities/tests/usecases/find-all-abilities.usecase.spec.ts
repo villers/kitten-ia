@@ -43,7 +43,7 @@ describe('FindAllAbilitiesUseCase', () => {
       .withName('Quick Dodge')
       .withDescription('Dodge the next attack')
       .withType(AbilityType.DEFENSE)
-      .withPower(0)
+      .withPower(1)
       .withAccuracy(95)
       .withCooldown(2)
       .withKittenId(kittenId2)
