@@ -169,19 +169,31 @@ export class BattlesService {
         ? battleState.opponent.id
         : battleState.challenger.id;
 
-    // Mettre à jour les statistiques du vainqueur
-    await this.prisma.kittenStats.update({
+    // Mettre à jour les statistiques du vainqueur (create if not exists)
+    await this.prisma.kittenStats.upsert({
       where: { kittenId: winnerId },
-      data: {
+      update: {
         wins: { increment: 1 },
+      },
+      create: {
+        kittenId: winnerId,
+        wins: 1,
+        losses: 0,
+        draws: 0,
       },
     });
 
-    // Mettre à jour les statistiques du perdant
-    await this.prisma.kittenStats.update({
+    // Mettre à jour les statistiques du perdant (create if not exists)
+    await this.prisma.kittenStats.upsert({
       where: { kittenId: loserId },
-      data: {
+      update: {
         losses: { increment: 1 },
+      },
+      create: {
+        kittenId: loserId,
+        wins: 0,
+        losses: 1,
+        draws: 0,
       },
     });
 
