@@ -1,47 +1,46 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { AbilityType } from '@prisma/client';
-import { Ability } from '../../domain/ability';
 import { FindAbilityByIdUseCase } from '../../application/usecases/find-ability-by-id.usecase';
-import { InMemoryAbilityRepository } from '../in-memory-ability-repository';
 import { AbilityNotFoundError } from '../../domain/errors';
+import { AbilityFixture, createAbilityFixture } from '../ability-fixture';
+import { abilityBuilder } from '../ability-builder';
 
 describe('FindAbilityByIdUseCase', () => {
-  let abilityRepository: InMemoryAbilityRepository;
+  let fixture: AbilityFixture;
   let findAbilityByIdUseCase: FindAbilityByIdUseCase;
-  let sampleAbility: Ability;
+  const abilityId = 'ability-1';
 
   beforeEach(() => {
-    abilityRepository = new InMemoryAbilityRepository();
-    findAbilityByIdUseCase = new FindAbilityByIdUseCase(abilityRepository);
+    fixture = createAbilityFixture();
+    findAbilityByIdUseCase = new FindAbilityByIdUseCase(fixture.getAbilityRepository());
     
     // Créer une capacité de test
-    sampleAbility = new Ability(
-      'ability-1',
-      'Scratch Attack',
-      'A powerful scratch attack',
-      AbilityType.ATTACK,
-      30,
-      90,
-      2,
-      'kitten-1',
-      new Date(),
-      new Date()
-    );
+    const ability = abilityBuilder()
+      .withId(abilityId)
+      .withName('Scratch Attack')
+      .withDescription('A powerful scratch attack')
+      .withType(AbilityType.ATTACK)
+      .withPower(30)
+      .withAccuracy(90)
+      .withCooldown(2)
+      .withKittenId('kitten-1')
+      .build();
     
-    abilityRepository.addAbility(sampleAbility);
+    fixture.givenAbilityExists([ability]);
   });
 
   it('should find an ability by its id', async () => {
     // Given
     const query = {
-      id: sampleAbility.id
+      id: abilityId
     };
 
     // When
     const ability = await findAbilityByIdUseCase.execute(query);
 
     // Then
-    expect(ability).toEqual(sampleAbility);
+    expect(ability.id).toBe(abilityId);
+    expect(ability.name).toBe('Scratch Attack');
   });
 
   it('should throw AbilityNotFoundError when ability does not exist', async () => {

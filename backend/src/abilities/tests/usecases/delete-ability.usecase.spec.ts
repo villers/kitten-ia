@@ -1,52 +1,50 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { AbilityType } from '@prisma/client';
-import { Ability } from '../../domain/ability';
 import { DeleteAbilityUseCase } from '../../application/usecases/delete-ability.usecase';
-import { InMemoryAbilityRepository } from '../in-memory-ability-repository';
-import { InMemoryKittenRepository } from '../in-memory-kitten-repository';
 import { AbilityNotFoundError, NotKittenOwnerError } from '../../domain/errors';
+import { AbilityFixture, createAbilityFixture } from '../ability-fixture';
+import { abilityBuilder } from '../ability-builder';
 
 describe('DeleteAbilityUseCase', () => {
-  let abilityRepository: InMemoryAbilityRepository;
-  let kittenRepository: InMemoryKittenRepository;
+  let fixture: AbilityFixture;
   let deleteAbilityUseCase: DeleteAbilityUseCase;
-  let sampleAbility: Ability;
   
+  const abilityId = 'ability-1';
   const kittenId = 'kitten-1';
   const userId = 'user-1';
 
   beforeEach(() => {
-    abilityRepository = new InMemoryAbilityRepository();
-    kittenRepository = new InMemoryKittenRepository();
-    deleteAbilityUseCase = new DeleteAbilityUseCase(abilityRepository, kittenRepository);
-    
-    // Ajouter un chaton
-    kittenRepository.addKitten({
-      id: kittenId,
-      userId
-    });
-    
-    // Créer une capacité de test
-    sampleAbility = new Ability(
-      'ability-1',
-      'Scratch Attack',
-      'A powerful scratch attack',
-      AbilityType.ATTACK,
-      30,
-      90,
-      2,
-      kittenId,
-      new Date(),
-      new Date()
+    fixture = createAbilityFixture();
+    deleteAbilityUseCase = new DeleteAbilityUseCase(
+      fixture.getAbilityRepository(),
+      fixture.getKittenRepository()
     );
     
-    abilityRepository.addAbility(sampleAbility);
+    // Ajouter un chaton
+    fixture.givenKittenExists([{
+      id: kittenId,
+      userId
+    }]);
+    
+    // Créer une capacité de test
+    const ability = abilityBuilder()
+      .withId(abilityId)
+      .withName('Scratch Attack')
+      .withDescription('A powerful scratch attack')
+      .withType(AbilityType.ATTACK)
+      .withPower(30)
+      .withAccuracy(90)
+      .withCooldown(2)
+      .withKittenId(kittenId)
+      .build();
+    
+    fixture.givenAbilityExists([ability]);
   });
 
   it('should delete an ability', async () => {
     // Given
     const command = {
-      id: sampleAbility.id,
+      id: abilityId,
       userId
     };
 
@@ -54,7 +52,7 @@ describe('DeleteAbilityUseCase', () => {
     await deleteAbilityUseCase.execute(command);
 
     // Then
-    const deletedAbility = await abilityRepository.findById(sampleAbility.id);
+    const deletedAbility = await fixture.getAbilityRepository().findById(abilityId);
     expect(deletedAbility).toBeNull();
   });
 
@@ -72,7 +70,7 @@ describe('DeleteAbilityUseCase', () => {
   it('should throw NotKittenOwnerError when user is not the owner', async () => {
     // Given
     const command = {
-      id: sampleAbility.id,
+      id: abilityId,
       userId: 'different-user'
     };
 
