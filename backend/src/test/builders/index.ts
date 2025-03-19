@@ -4,3 +4,7 @@ export * from '@/test/builders/kitten-stats.builder';
 export * from '@/test/builders/ability.builder';
 export * from '@/test/builders/battle-log.builder';
 export * from '@/test/builders/battle-move.builder';
+export * from '@/test/builders/battle.builder';
+export * from '@/test/builders/battle-kitten.builder';
+export * from '@/test/builders/battle-ability.builder';
+export * from '@/test/builders/battle-log-entry.builder';

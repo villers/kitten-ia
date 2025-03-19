@@ -67,7 +67,7 @@ export class KittenFixture {
       } else if (key === 'attributes') {
         // Vérification des attributs
         for (const [attrKey, attrValue] of Object.entries(value)) {
-          expect(this.result[key][attrKey].value).toEqual(attrValue.value);
+          expect(this.result[key][attrKey].value).toEqual((attrValue as any).value);
         }
       } else {
         // Pour les autres propriétés

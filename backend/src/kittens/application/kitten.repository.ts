@@ -7,4 +7,7 @@ export interface KittenRepository {
   findAll(): Promise<Kitten[]>;
   save(kitten: Kitten): Promise<Kitten>;
   delete(id: string): Promise<void>;
+  isOwner(kittenId: string, userId: string): Promise<boolean>;
+  updateStats(winnerId: string, loserId: string): Promise<void>;
+  updateExperience(kittenId: string, experienceGain: number): Promise<void>;
 }
